@@ -71,6 +71,7 @@ class Nwm:
     def __init__(self):
         self._dataset = None
         self._metadata = None
+        self._user_input = {}
 
     @property
     def dataset(self):
@@ -80,6 +81,10 @@ class Nwm:
     def metadata(self):
         return self._metadata
 
+    @property
+    def user_input(self):
+        return self._user_input
+
     def get_data_from_hs(self, archive='harvey', config='short_range', geom='channel_rt',
                          variable='streamflow', comid=(5781915,), init_time=0, time_lag=0,
                          start_date='2017-08-23', end_date='2017-09-06',
@@ -88,6 +93,8 @@ class Nwm:
         # check user input
         user_input = Nwm._get_hs_user_input(archive, config, geom, variable, comid, init_time,
                                             time_lag, start_date, end_date)
+        self._user_input = user_input
+
         # get hs wml
         data_array, metadata = Nwm._get_hs_wml(save_wml, user_input)
 
@@ -194,9 +201,7 @@ class Nwm:
         hs_link = 'https://hs-apps.hydroshare.org/apps/nwm-forecasts/api/GetWaterML/'
         r = requests.get(hs_link, params=user_input,
                          headers={'Authorization': 'Token 2b2c17f99447ad2497c8090569caac530e1ce13a'})
-
-        if r.status_code != 200:
-            return 'Failed to download data from HydroShare. {}:{}'.format(r.status_code, r.reason)
+        r.raise_for_status()
 
         # get time series data from waterML
         series = wml(r.content).response
