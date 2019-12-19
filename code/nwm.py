@@ -69,8 +69,16 @@ class Nwm:
     }
 
     def __init__(self):
-        self.data_array = None
-        self.metadata = None
+        self._dataset = None
+        self._metadata = None
+
+    @property
+    def dataset(self):
+        return self._dataset
+
+    @property
+    def metadata(self):
+        return self._metadata
 
     def get_data_from_hs(self, archive='harvey', config='short_range', geom='channel_rt',
                          variable='streamflow', comid=(5781915,), init_time=0, time_lag=0,
@@ -84,8 +92,8 @@ class Nwm:
         data_array, metadata = Nwm._get_hs_wml(save_wml, user_input)
 
         # store results
-        self.datasets = data_array
-        self.metadata = metadata
+        self._dataset = data_array
+        self._metadata = metadata
 
         return 'Data is downloaded from HydroShare.'
 
@@ -216,11 +224,5 @@ class Nwm:
 
         return data_array, metadata
 
-    def plot_data_from_hs(self):
-        raise NotImplementedError('plot_data_from_hs')
-
     def get_data_from_noaa(self):
         raise NotImplementedError('get_data_from_noaa')
-
-
-
