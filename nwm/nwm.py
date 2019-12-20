@@ -214,6 +214,7 @@ class Nwm:
         data_array.attrs['no_data_value'] = var.variable.no_data_value
         data_array.attrs['method_description']: var.values[0].methods[0].description
         data_array.attrs['quality_control_level']: var.values[0].qualit_control_levels[0].definition
+        data_array.attrs['archive'] = user_input['archive']
 
         # save waterML file
         if save_wml:
