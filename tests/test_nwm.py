@@ -1,4 +1,5 @@
 import pytest
+import os
 from datetime import datetime, timedelta
 
 import xarray
@@ -8,11 +9,10 @@ from nwm import Nwm
 
 # test default argument settings
 def test_save_wml(tmpdir):
-    dataset, metadata = Nwm().get_data_from_hs(save_wml=True, wml_path=tmpdir)
+    dataset = Nwm().get_data_from_hs(save_wml=True, wml_path=tmpdir)
 
     assert isinstance(dataset, xarray.core.dataarray.DataArray)
-    assert isinstance(metadata, dict)
-    assert isinstance(metadata, dict)
+    assert len(os.listdir(tmpdir)) == 1
 
 
 # test user input for get_data_from_hs
@@ -96,13 +96,12 @@ def test_hs_request_for_rolling():
         end_date = Nwm.HS_INFO['available_date']['rolling'][1]
         print(config, start_date, end_date)
         if config != 'medium_range':  # the medium range data doesn't work in HydroShare
-            dataset, metadata = Nwm().get_data_from_hs(archive='rolling', config=config, geom='channel_rt',
+            dataset = Nwm().get_data_from_hs(archive='rolling', config=config, geom='channel_rt',
                                                        variable='streamflow', start_date=start_date, end_date=end_date)
         else:
             continue
 
         assert isinstance(dataset, xarray.core.dataarray.DataArray)
-        assert isinstance(metadata, dict)
 
 
 def test_hs_request_for_harvey():
@@ -111,11 +110,10 @@ def test_hs_request_for_harvey():
         end_date = Nwm.HS_INFO['available_date']['harvey'][1]
         print(config, start_date, end_date)
 
-        dataset, metadata = Nwm().get_data_from_hs(archive='harvey', config=config, geom='channel_rt',
+        dataset = Nwm().get_data_from_hs(archive='harvey', config=config, geom='channel_rt',
                                                    variable='streamflow', start_date=start_date, end_date=end_date)
 
         assert isinstance(dataset, xarray.core.dataarray.DataArray)
-        assert isinstance(metadata, dict)
 
 
 def test_hs_request_for_irma():
@@ -124,11 +122,10 @@ def test_hs_request_for_irma():
         end_date = Nwm.HS_INFO['available_date']['irma'][1]
         print(config, start_date, end_date)
 
-        dataset, metadata = Nwm().get_data_from_hs(archive='irma', config=config, geom='channel_rt',
+        dataset = Nwm().get_data_from_hs(archive='irma', config=config, geom='channel_rt',
                                                    variable='streamflow', start_date=start_date, end_date=end_date)
 
         assert isinstance(dataset, xarray.core.dataarray.DataArray)
-        assert isinstance(metadata, dict)
 
 
 def test_hs_request_for_florence():
@@ -137,9 +134,7 @@ def test_hs_request_for_florence():
         end_date = Nwm.HS_INFO['available_date']['florence'][1]
         print(config, start_date, end_date)
 
-        dataset, metadata = Nwm().get_data_from_hs(archive='florence', config=config, geom='channel_rt',
+        dataset = Nwm().get_data_from_hs(archive='florence', config=config, geom='channel_rt',
                                                    variable='streamflow', start_date=start_date, end_date=end_date)
 
         assert isinstance(dataset, xarray.core.dataarray.DataArray)
-        assert isinstance(metadata, dict)
-

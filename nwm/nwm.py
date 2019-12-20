@@ -71,16 +71,11 @@ class Nwm:
 
     def __init__(self):
         self._dataset = None
-        self._metadata = None
         self._user_input = None
 
     @property
     def dataset(self):
         return self._dataset
-
-    @property
-    def metadata(self):
-        return self._metadata
 
     @property
     def user_input(self):
@@ -97,13 +92,12 @@ class Nwm:
         self._user_input = user_input
 
         # get hs wml
-        data_array, metadata = Nwm._get_hs_wml(save_wml, wml_path, user_input)
+        data_array = Nwm._get_hs_wml(save_wml, wml_path, user_input)
 
         # store results
         self._dataset = data_array
-        self._metadata = metadata
 
-        return data_array, metadata
+        return data_array
 
     @staticmethod
     def _get_hs_user_input(archive, config, geom, variable, comid, init_time, time_lag, start_date, end_date):
@@ -209,18 +203,17 @@ class Nwm:
         records = var.values[0].values
         times = [record.date_time_utc for record in records]
         values = [float(record.value) for record in records]
+
+        # create data array
         data_array = xr.DataArray(values, coords={'time': times}, dims=['time'])
 
-        # get time series metadata from waterML
-        metadata = {
-            'site_name': var.source_info.site_name,
-            'variable_name': var.variable.variable_name,
-            'variable_unit': var.variable.unit.abbreviation,
-            'value_type': var.variable.value_type,
-            'no_data_value': var.variable.no_data_value,
-            'method_description': var.values[0].methods[0].description,
-            'quality_control_level': var.values[0].qualit_control_levels[0].definition,
-        }
+        data_array.attrs['site_name'] = var.source_info.site_name
+        data_array.attrs['variable_name'] = var.variable.variable_name
+        data_array.attrs['variable_unit'] = var.variable.unit.abbreviation
+        data_array.attrs['value_type'] = var.variable.value_type
+        data_array.attrs['no_data_value'] = var.variable.no_data_value
+        data_array.attrs['method_description']: var.values[0].methods[0].description
+        data_array.attrs['quality_control_level']: var.values[0].qualit_control_levels[0].definition
 
         # save waterML file
         if save_wml:
@@ -230,7 +223,7 @@ class Nwm:
             with open(file_path, 'w') as f:
                 f.write(r.text)
 
-        return data_array, metadata
+        return data_array
 
     def get_data_from_noaa(self):
         raise NotImplementedError('get_data_from_noaa')
