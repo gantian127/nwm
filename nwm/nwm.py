@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import xarray as xr
 import requests
 from datetime import datetime, timedelta
@@ -71,7 +72,7 @@ class Nwm:
     def __init__(self):
         self._dataset = None
         self._metadata = None
-        self._user_input = {}
+        self._user_input = None
 
     @property
     def dataset(self):
@@ -88,7 +89,7 @@ class Nwm:
     def get_data_from_hs(self, archive='harvey', config='short_range', geom='channel_rt',
                          variable='streamflow', comid=(5781915,), init_time=0, time_lag=0,
                          start_date='2017-08-23', end_date='2017-09-06',
-                         save_wml=True):
+                         save_wml=False, wml_path=''):
 
         # check user input
         user_input = Nwm._get_hs_user_input(archive, config, geom, variable, comid, init_time,
@@ -96,13 +97,13 @@ class Nwm:
         self._user_input = user_input
 
         # get hs wml
-        data_array, metadata = Nwm._get_hs_wml(save_wml, user_input)
+        data_array, metadata = Nwm._get_hs_wml(save_wml, wml_path, user_input)
 
         # store results
         self._dataset = data_array
         self._metadata = metadata
 
-        return 'Data is downloaded from HydroShare.'
+        return data_array, metadata
 
     @staticmethod
     def _get_hs_user_input(archive, config, geom, variable, comid, init_time, time_lag, start_date, end_date):
@@ -195,8 +196,7 @@ class Nwm:
         return user_input
 
     @staticmethod
-    def _get_hs_wml(save_wml, user_input):
-
+    def _get_hs_wml(save_wml, wml_path, user_input):
         # form the link and make http request
         hs_link = 'https://hs-apps.hydroshare.org/apps/nwm-forecasts/api/GetWaterML/'
         r = requests.get(hs_link, params=user_input,
@@ -224,7 +224,10 @@ class Nwm:
 
         # save waterML file
         if save_wml:
-            with open('{}_{}_waterML.xml'.format(user_input['archive'], user_input['COMID']), 'w') as f:
+            file_name = '{}_{}_waterML.xml'.format(user_input['archive'], user_input['COMID'])
+            file_path = os.path.join(wml_path if os.path.isdir(wml_path) else os.getcwd(), file_name)
+
+            with open(file_path, 'w') as f:
                 f.write(r.text)
 
         return data_array, metadata
