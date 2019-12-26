@@ -209,6 +209,7 @@ class Nwm:
 
         data_array.attrs['site_name'] = var.source_info.site_name
         data_array.attrs['variable_name'] = var.variable.variable_name
+        data_array.attrs['variable_unit_name'] = var.variable.unit.name
         data_array.attrs['variable_unit'] = var.variable.unit.abbreviation
         data_array.attrs['value_type'] = var.variable.value_type
         data_array.attrs['no_data_value'] = var.variable.no_data_value
@@ -227,4 +228,4 @@ class Nwm:
         return data_array
 
     def get_data_from_noaa(self):
-        raise NotImplementedError('get_data_from_noaa')
+        raise NotImplementedError('get_data_from_noaa not implemented.')

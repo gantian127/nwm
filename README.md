@@ -24,15 +24,14 @@ import matplotlib.pyplot as plt
 from nwm import Nwm
 
 # get data from National water model HydroShare App
-nwm_obj = Nwm()
-dataset = nwm_obj.get_data_from_hs()
+dataset = Nwm().get_data_from_hs()
 
 # show metadata
 dataset.attrs
 
 # plot data
 dataset.plot()
-plt.ylabel('{}({})'.format(dataset.variable_name,dataset.variable_unit))
+plt.ylabel('{}({})'.format(dataset.variable_unit_name,dataset.variable_unit))
 plt.title('{}; {}'.format(dataset.archive.upper(), dataset.site_name))
 ```
 
