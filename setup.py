@@ -18,6 +18,7 @@ setup(
         "pyyaml",
         "requests",
         "xarray",
+        "owslib",
     ],
 
     # entry_points={"console_scripts": ["nwm=nwm.cli:main"]}, TODO

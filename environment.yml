@@ -10,4 +10,7 @@ dependencies:
   - requests
   - xarray
   - matplotlib
+  - pip
+  - pip:
+    - owslib
 
