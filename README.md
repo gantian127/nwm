@@ -1,7 +1,7 @@
 # nwm
 [![Documentation Status](https://readthedocs.org/projects/ansicolortags/badge/?version=latest)](https://readthedocs.org/)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/gantian127/nwm/blob/master/LICENSE.txt)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gantian127/nwm/master?filepath=notebooks%2Fnwm.ipynb)
 
 
 
