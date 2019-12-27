@@ -20,6 +20,7 @@
 project = 'nwm'
 copyright = '2019, Tian Gan'
 author = 'Tian Gan'
+master_doc = 'index'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'
