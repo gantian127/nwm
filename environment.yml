@@ -9,4 +9,5 @@ dependencies:
   - pyyaml
   - requests
   - xarray
+  - matplotlib
 
