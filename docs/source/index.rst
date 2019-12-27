@@ -20,6 +20,3 @@ Indices and tables
 * :ref:`search`
 
 
-Tests
-==========
-.. code-block::
