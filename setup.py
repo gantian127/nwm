@@ -1,10 +1,11 @@
 from setuptools import setup, find_packages
+import versioneer
 
 
 setup(
     name="nwm",
-    version="0.0.1",  # versioninoor.get_version() TODO
-    # cmdclass=versioneer.get_cmdclass(), TODO
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     author="Tian Gan",
     author_email="jamy127@foxmail.com",
     description="Fetch and process data from the National Water Model",
