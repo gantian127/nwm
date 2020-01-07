@@ -8,11 +8,18 @@ from nwm import Nwm
 
 
 # test default argument settings
-def test_save_wml(tmpdir):
-    dataset = Nwm().get_data_from_hs(save_wml=True, wml_path=tmpdir)
+def test_save_wml_valid_dir(tmpdir):
+    dataset = Nwm().get_data_from_hs(output=os.path.join(tmpdir, 'test.wml'))
 
     assert isinstance(dataset, xarray.core.dataarray.DataArray)
     assert len(os.listdir(tmpdir)) == 1
+
+
+def test_save_wml_invalid_dir(tmpdir):
+    dataset = Nwm().get_data_from_hs(output=tmpdir)
+
+    assert isinstance(dataset, xarray.core.dataarray.DataArray)
+    assert len(os.listdir(tmpdir)) == 0
 
 
 # test user input for get_data_from_hs

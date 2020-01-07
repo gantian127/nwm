@@ -84,7 +84,7 @@ class Nwm:
     def get_data_from_hs(self, archive='harvey', config='short_range', geom='channel_rt',
                          variable='streamflow', comid=(5781915,), init_time=0, time_lag=0,
                          start_date='2017-08-23', end_date='2017-09-06',
-                         save_wml=False, wml_path=''):
+                         output=""):
 
         # check user input
         user_input = Nwm._get_hs_user_input(archive, config, geom, variable, comid, init_time,
@@ -92,7 +92,7 @@ class Nwm:
         self._user_input = user_input
 
         # get hs wml
-        data_array = Nwm._get_hs_wml(save_wml, wml_path, user_input)
+        data_array = Nwm._get_hs_wml(output, user_input)
 
         # store results
         self._dataset = data_array
@@ -114,7 +114,8 @@ class Nwm:
         if config in Nwm.HS_INFO['config'].values():
             user_input['config'] = config
         else:
-            raise ValueError('Please set config with following options: {}'.format(','.join(Nwm.HS_INFO['config'].values())))
+            raise ValueError('Please set config with following options: {}'.format(
+                ','.join(Nwm.HS_INFO['config'].values())))
 
         # check time
         try:
@@ -190,7 +191,7 @@ class Nwm:
         return user_input
 
     @staticmethod
-    def _get_hs_wml(save_wml, wml_path, user_input):
+    def _get_hs_wml(output, user_input):
         # form the link and make http request
         hs_link = 'https://hs-apps.hydroshare.org/apps/nwm-forecasts/api/GetWaterML/'
         r = requests.get(hs_link, params=user_input,
@@ -218,12 +219,12 @@ class Nwm:
         data_array.attrs['archive'] = user_input['archive']
 
         # save waterML file
-        if save_wml:
-            file_name = '{}_{}_waterML.xml'.format(user_input['archive'], user_input['COMID'])
-            file_path = os.path.join(wml_path if os.path.isdir(wml_path) else os.getcwd(), file_name)
-
-            with open(file_path, 'w') as f:
-                f.write(r.text)
+        if output:
+            try:
+                with open(output, 'w') as f:
+                    f.write(r.text)
+            except Exception:
+                print('Failed to save the data as a waterML file. Please provide a valid file path.'.format(output))
 
         return data_array
 
