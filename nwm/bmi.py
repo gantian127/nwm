@@ -17,15 +17,14 @@ BmiGridUniformRectilinear = namedtuple(
 )
 
 
-
-class BmiOnhm(Bmi):
-    def finalize(self) -> None:
+class BmiNwmHs(Bmi):
+    def finalize(self) -> None:  # TODO: not sure
         """Perform tear-down tasks for the model.
         Perform all tasks that take place after exiting the model's time
         loop. This typically includes deallocating memory, closing files and
         printing reports.
         """
-        self._day = 0
+        self._hour = 0
 
     def get_component_name(self) -> str:
         """Name of the component.
@@ -36,23 +35,23 @@ class BmiOnhm(Bmi):
         """
         return "National Water Model (NWM)"
 
-    def get_current_time(self) -> float:
+    def get_current_time(self) -> float:  # TODO: not sure
         """Current time of the model.
         Returns
         -------
         float
             The current model time.
         """
-        return float(self._day)
+        return float(self._hour)
 
-    def get_end_time(self) -> float: # TODO: don't know what this means
+    def get_end_time(self) -> float:  # TODO: not sure
         """End time of the model.
         Returns
         -------
         float
             The maximum model time.
         """
-        return self.dataset.dims["day"]
+        return self._data.size
 
     def get_grid_edge_count(self, grid: int) -> int:
         """Get the number of edges in the grid.
@@ -148,7 +147,7 @@ class BmiOnhm(Bmi):
         """
         raise NotImplementedError("get_grid_nodes_per_face")
 
-    def get_grid_origin(self, grid: int, origin: numpy.ndarray) -> numpy.ndarray: #TODO there is no coordinate info
+    def get_grid_origin(self, grid: int, origin: numpy.ndarray) -> numpy.ndarray:  #TODO not sure, no coord info
         """Get coordinates for the lower-left corner of the computational grid.
         Parameters
         ----------
@@ -165,7 +164,7 @@ class BmiOnhm(Bmi):
         """
         return NotImplementedError("get_grid_origin")
 
-    def get_grid_rank(self, grid: int) -> int:  #TODO: it is time series data, is it 1?
+    def get_grid_rank(self, grid: int) -> int:  # TODO: not sure for time series
         """Get number of dimensions of the computational grid.
         Parameters
         ----------
@@ -178,7 +177,7 @@ class BmiOnhm(Bmi):
         """
         return 1
 
-    def get_grid_shape(self, grid: int, shape: numpy.ndarray) -> numpy.ndarray:  #TODO: need to get the time series dimension
+    def get_grid_shape(self, grid: int, shape: numpy.ndarray) -> numpy.ndarray:
         """Get dimensions of the computational grid.
         Parameters
         ----------
@@ -194,7 +193,7 @@ class BmiOnhm(Bmi):
         shape[:] = self._grid[grid].shape
         return shape
 
-    def get_grid_size(self, grid: int) -> int:  # TODO: find out what is product???
+    def get_grid_size(self, grid: int) -> int:  # TODO: not sure how to implement for river reach
         """Get the total number of elements in the computational grid.
         Parameters
         ----------
@@ -205,7 +204,7 @@ class BmiOnhm(Bmi):
         int
             Size of the grid.
         """
-        return numpy.prod(self._grid[grid].shape)
+        return NotImplementedError("get_grid_size")
 
     def get_grid_spacing(self, grid: int, spacing: numpy.ndarray) -> numpy.ndarray: #TODO: there is no spacing
         """Get distance between nodes of the computational grid.
@@ -222,7 +221,7 @@ class BmiOnhm(Bmi):
         """
         return NotImplementedError("get_grid_spacing")
 
-    def get_grid_type(self, grid: int) -> str: #TODO: this is just one point (river reach)
+    def get_grid_type(self, grid: int) -> str:  #TODO: not sure
         """Get the grid type as a string.
         Parameters
         ----------
@@ -233,7 +232,7 @@ class BmiOnhm(Bmi):
         str
             Type of grid as a string.
         """
-        return "points"
+        return "scalar"
 
     def get_grid_x(self, grid: int, x: numpy.ndarray) -> numpy.ndarray:
         """Get coordinates of grid nodes in the x direction.
@@ -319,7 +318,7 @@ class BmiOnhm(Bmi):
         """
         raise NotImplementedError("get_start_time")
 
-    def get_time_step(self) -> float:  #TODO: how to determine this value?
+    def get_time_step(self) -> float:  #TODO: not sure for hourly data
         """Current time step of the model.
         The model time step should be of type float.
         Returns
@@ -327,9 +326,9 @@ class BmiOnhm(Bmi):
         float
             The time step used in model.
         """
-        return 0.0
+        return 1.0
 
-    def get_time_units(self) -> str:  #TODO: how to know if a "model" time units? what if it is hourly data?
+    def get_time_units(self) -> str:  #TODO: not sure
         """Time units of the model.
         Returns
         -------
@@ -339,9 +338,9 @@ class BmiOnhm(Bmi):
         -----
         CSDMS uses the UDUNITS standard from Unidata.
         """
-        return "day"
+        return "hour"
 
-    def get_value(self, name: str, dest: numpy.ndarray) -> numpy.ndarray: #TODO: return value with reshape??
+    def get_value(self, name: str, dest: numpy.ndarray) -> numpy.ndarray:
         """Get a copy of values of the given variable.
         This is a getter for the model, used to access the model's
         current state. It returns a *copy* of a model variable, with
@@ -357,10 +356,10 @@ class BmiOnhm(Bmi):
         ndarray
             The same numpy array that was passed as an input buffer.
         """
-        dest[:] = self.data.dataset[name][self._day].reshape(-1)
+        dest[:] = self._data.values  # TODO: is this for the whole time step?
 
     def get_value_at_indices(
-        self, name: str, dest: numpy.ndarray, inds: numpy.ndarray  # TODO: need to know the details
+        self, name: str, dest: numpy.ndarray, inds: numpy.ndarray  # TODO: not sure
     ) -> numpy.ndarray:
         """Get values at particular indices.
         Parameters
@@ -376,7 +375,7 @@ class BmiOnhm(Bmi):
         array_like
             Value of the model variable at the given location.
         """
-        dest[:] = self.data.dataset[name][self._day].reshape(-1)[inds]
+        dest[:] = self._data.values[inds]
 
     def get_value_ptr(self, name: str) -> numpy.ndarray:  # TODO: difference between get_value()?
         """Get a reference to values of the given variable.
@@ -392,7 +391,7 @@ class BmiOnhm(Bmi):
         array_like
             A reference to a model variable.
         """
-        return self.data.dataset[name][self._day].values
+        return self._data.values
 
     def get_var_grid(self, name: str) -> int:
         """Get grid identifier for the given variable.
@@ -498,7 +497,7 @@ class BmiOnhm(Bmi):
         """
         return self._var[name].units
 
-    def initialize(self, config_file: str) -> None:  # TODO: need to refine it
+    def initialize(self, config_file: str) -> None:
         """Perform startup tasks for the model.
         Perform all tasks that take place before entering the model's time
         loop, including opening files and initializing the model state. Model
@@ -518,42 +517,42 @@ class BmiOnhm(Bmi):
         """
         if config_file:
             with open(config_file, "r") as fp:
-                conf = yaml.safe_load(fp).get("ohnm", {})
+                conf = yaml.safe_load(fp).get("nwmhs", {})
         else:
             conf = {}
-        conf.setdefault("start_date", "2019-07-15")
-        self._data = Onhm().dataset
 
-        self._output_var_names = tuple(self._data.data_vars)
+        self._data = NwmHs().get_data(**conf) if conf else NwmHs().get_data()
+
+        self._output_var_names = tuple([self._data.variable_name])  # TODO: translate var name into CSDMS standard name
         self._input_var_names = ()
 
         self._grid = {
             0: BmiGridUniformRectilinear(
-                shape=(self._data.dims["lat"], self._data.dims["lon"]),
+                shape=(),
                 yx_spacing=(
-                    float(self._data.attrs["geospatial_lat_resolution"]),
-                    float(self._data.attrs["geospatial_lon_resolution"]),
+                    # float(self._data.attrs["geospatial_lat_resolution"]),
+                    # float(self._data.attrs["geospatial_lon_resolution"]),
                 ),
                 yx_of_lower_left=(
-                    float(self._data.attrs["geospatial_lat_min"]),
-                    float(self._data.attrs["geospatial_lat_max"]),
+                    # float(self._data.attrs["geospatial_lat_min"]),
+                    # float(self._data.attrs["geospatial_lat_max"]),
                 ),
             )
-        }
+        }  # TODO: not sure for river reach
 
         self._var = {}
         for name in self._output_var_names:
-            array = self._data[name].values
+            array = self._data.values
             self._var[name] = BmiVar(
                 dtype=str(array.dtype),
                 itemsize=array.itemsize,
                 nbytes=array.nbytes,
-                units=self._data[name].attrs["units"],
-                location="node",
-                grid=0,
+                units=self._data.attrs["variable_unit_name"],
+                location="scalar",  # TODO: not sure for river reach
+                grid=0,  # TODO: not sure for river reach
             )
 
-        self._day = 0
+        self._hour = 0
 
     def set_value(self, name: str, values: numpy.ndarray) -> None:
         """Specify a new value for a model variable.
@@ -585,7 +584,7 @@ class BmiOnhm(Bmi):
         """
         raise NotImplementedError("set_value_at_indices")
 
-    def update(self) -> None:  # TODO: what if it is hourly data with several days??
+    def update(self) -> None:  # TODO: not sure
         """Advance model state by one time step.
         Perform all tasks that take place within one pass through the model's
         time loop. This typically includes incrementing all of the model's
@@ -593,4 +592,4 @@ class BmiOnhm(Bmi):
         then they can be computed by the :func:`initialize` method and this
         method can return with no action.
         """
-        self._day += 1
+        self._hour += 1
