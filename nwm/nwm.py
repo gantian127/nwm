@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from owslib.waterml.wml11 import WaterML_1_1 as wml
 
 
-class Nwm:
+class NwmHs:
     HS_INFO = {
         'archive': {
             '40-Day Rolling Window': 'rolling',
@@ -81,18 +81,18 @@ class Nwm:
     def user_input(self):
         return self._user_input
 
-    def get_data_from_hs(self, archive='harvey', config='short_range', geom='channel_rt',
-                         variable='streamflow', comid=(5781915,), init_time=0, time_lag=0,
-                         start_date='2017-08-23', end_date='2017-09-06',
-                         output=""):
+    def get_data(self, archive='harvey', config='short_range', geom='channel_rt',
+                 variable='streamflow', comid=(5781915,), init_time=0, time_lag=0,
+                 start_date='2017-08-23', end_date='2017-09-06',
+                 output=""):
 
         # check user input
-        user_input = Nwm._get_hs_user_input(archive, config, geom, variable, comid, init_time,
-                                            time_lag, start_date, end_date)
+        user_input = NwmHs._get_hs_user_input(archive, config, geom, variable, comid, init_time,
+                                              time_lag, start_date, end_date)
         self._user_input = user_input
 
         # get hs wml
-        data_array = Nwm._get_hs_wml(output, user_input)
+        data_array = NwmHs._get_hs_wml(output, user_input)
 
         # store results
         self._dataset = data_array
@@ -105,17 +105,17 @@ class Nwm:
         user_input = {}
 
         # check archive
-        if archive in Nwm.HS_INFO['archive'].values():
+        if archive in NwmHs.HS_INFO['archive'].values():
             user_input['archive'] = archive
         else:
-            raise ValueError('Please set "archive" with the following options: {}'.format(Nwm.HS_INFO['archive']))
+            raise ValueError('Please set "archive" with the following options: {}'.format(NwmHs.HS_INFO['archive']))
 
         # check config
-        if config in Nwm.HS_INFO['config'].values():
+        if config in NwmHs.HS_INFO['config'].values():
             user_input['config'] = config
         else:
             raise ValueError('Please set config with following options: {}'.format(
-                ','.join(Nwm.HS_INFO['config'].values())))
+                ','.join(NwmHs.HS_INFO['config'].values())))
 
         # check time
         try:
@@ -124,16 +124,16 @@ class Nwm:
         except Exception:
             raise ValueError("Incorrect date format, should be YYYY-MM-DD")
 
-        for archive_option in Nwm.HS_INFO['archive'].values():
+        for archive_option in NwmHs.HS_INFO['archive'].values():
             if archive == archive_option:
-                start_lim = datetime.strptime(Nwm.HS_INFO['available_date'][archive][0], '%Y-%m-%d')
-                end_lim = datetime.strptime(Nwm.HS_INFO['available_date'][archive][1], '%Y-%m-%d')
+                start_lim = datetime.strptime(NwmHs.HS_INFO['available_date'][archive][0], '%Y-%m-%d')
+                end_lim = datetime.strptime(NwmHs.HS_INFO['available_date'][archive][1], '%Y-%m-%d')
 
                 if start_lim <= start_datetime <= end_lim:
                     user_input['startDate'] = start_date
                 else:
                     raise ValueError('Incorrect start date, should between {} and {} for {} archive'.format(
-                        Nwm.HS_INFO['available_date'][archive][0], Nwm.HS_INFO['available_date'][archive][1], archive))
+                        NwmHs.HS_INFO['available_date'][archive][0], NwmHs.HS_INFO['available_date'][archive][1], archive))
 
                 if config == 'analysis_assim':
                     if start_datetime < end_datetime:
@@ -162,18 +162,18 @@ class Nwm:
                 raise ValueError('Incorrect time, value should be 0, 6, or 12')
 
         # check geom and variable
-        if geom in Nwm.HS_INFO['geom'].values():
+        if geom in NwmHs.HS_INFO['geom'].values():
             user_input['geom'] = geom
 
-            for geom_option in Nwm.HS_INFO['geom'].values():
+            for geom_option in NwmHs.HS_INFO['geom'].values():
                 if geom == geom_option:
-                    if variable in Nwm.HS_INFO[geom_option].values():
+                    if variable in NwmHs.HS_INFO[geom_option].values():
                         user_input['variable'] = variable
                         break
                     else:
-                        raise ValueError('Please set "variable" with following options:{}'.format(Nwm.HS_INFO[geom_option].values()))
+                        raise ValueError('Please set "variable" with following options:{}'.format(NwmHs.HS_INFO[geom_option].values()))
         else:
-            raise ValueError('Please set "geom" with following options:{}'.format(Nwm.HS_INFO['geom'].values()))
+            raise ValueError('Please set "geom" with following options:{}'.format(NwmHs.HS_INFO['geom'].values()))
 
         # check comid
         if isinstance(comid, (int, list, tuple)) and all(isinstance(item, int) for item in comid):
@@ -227,6 +227,3 @@ class Nwm:
                 print('Failed to save the data as a waterML file. Please provide a valid file path.'.format(output))
 
         return data_array
-
-    def get_data_from_noaa(self):
-        raise NotImplementedError('get_data_from_noaa not implemented.')

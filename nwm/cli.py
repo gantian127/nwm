@@ -1,18 +1,11 @@
 import click
 
 from . import __version__
-from .nwm import Nwm
+from .nwm import NwmHs
 
 
 @click.command()
 @click.version_option(version=__version__)
-@click.option(
-    "--source",
-    required=True,
-    default="hydroshare",
-    help="Source name for data download, including hydroshare and noaa.",
-    show_default="HydroShare"
-)
 @click.option(
     "--archive",
     default="harvey",
@@ -78,13 +71,8 @@ from .nwm import Nwm
     help="Output file path to store downloaded data.",
     show_default="",
 )
-def main(source, archive, config, geom, variable, comid, init_time, time_lag, start_date, end_date, output):
-    if source == 'hydroshare':
-        dataset = Nwm().get_data_from_hs(archive=archive, config=config, geom=geom,variable=variable, comid=comid,
-                                         init_time=init_time, time_lag=time_lag, start_date=start_date,
-                                         end_date=end_date, output=output)
+def main(archive, config, geom, variable, comid, init_time, time_lag, start_date, end_date, output):
+        dataset = NwmHs().get_data(archive=archive, config=config, geom=geom, variable=variable, comid=comid,
+                                           init_time=init_time, time_lag=time_lag, start_date=start_date,
+                                           end_date=end_date, output=output)
         print(dataset)
-    elif source == 'noaa':
-        Nwm().get_data_from_noaa()
-    else:
-        raise ValueError('Wrong source name.')

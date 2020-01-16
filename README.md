@@ -21,10 +21,10 @@ Example
 
 ```python
 import matplotlib.pyplot as plt
-from nwm import Nwm
+from nwm import NwmHs
 
 # get data from National water model HydroShare App
-dataset = Nwm().get_data_from_hs()
+dataset = NwmHs().get_data()
 
 # show metadata
 dataset.attrs
