@@ -24,7 +24,7 @@ class BmiNwmHs(Bmi):
         loop. This typically includes deallocating memory, closing files and
         printing reports.
         """
-        self._hour = 0
+        self._time_index = 0
 
     def get_component_name(self) -> str:
         """Name of the component.
@@ -35,23 +35,23 @@ class BmiNwmHs(Bmi):
         """
         return "National Water Model (NWM)"
 
-    def get_current_time(self) -> float:  # TODO: not sure
+    def get_current_time(self) -> float:
         """Current time of the model.
         Returns
         -------
         float
             The current model time.
         """
-        return float(self._hour)
+        return float(self._time_index)
 
-    def get_end_time(self) -> float:  # TODO: not sure
+    def get_end_time(self) -> float:
         """End time of the model.
         Returns
         -------
         float
             The maximum model time.
         """
-        return self._data.size
+        return float(self._data.size)
 
     def get_grid_edge_count(self, grid: int) -> int:
         """Get the number of edges in the grid.
@@ -147,7 +147,7 @@ class BmiNwmHs(Bmi):
         """
         raise NotImplementedError("get_grid_nodes_per_face")
 
-    def get_grid_origin(self, grid: int, origin: numpy.ndarray) -> numpy.ndarray:  #TODO not sure, no coord info
+    def get_grid_origin(self, grid: int, origin: numpy.ndarray) -> numpy.ndarray:
         """Get coordinates for the lower-left corner of the computational grid.
         Parameters
         ----------
@@ -164,7 +164,7 @@ class BmiNwmHs(Bmi):
         """
         return NotImplementedError("get_grid_origin")
 
-    def get_grid_rank(self, grid: int) -> int:  # TODO: not sure for time series
+    def get_grid_rank(self, grid: int) -> int:
         """Get number of dimensions of the computational grid.
         Parameters
         ----------
@@ -175,7 +175,7 @@ class BmiNwmHs(Bmi):
         int
             Rank of the grid.
         """
-        return 1
+        return 0  # if it is not 1D or 2D grid, it is 0
 
     def get_grid_shape(self, grid: int, shape: numpy.ndarray) -> numpy.ndarray:
         """Get dimensions of the computational grid.
@@ -190,10 +190,10 @@ class BmiNwmHs(Bmi):
         ndarray of int
             The input numpy array that holds the grid's shape.
         """
-        shape[:] = self._grid[grid].shape
-        return shape
 
-    def get_grid_size(self, grid: int) -> int:  # TODO: not sure how to implement for river reach
+        return NotImplementedError("get_grid_shape")
+
+    def get_grid_size(self, grid: int) -> int:
         """Get the total number of elements in the computational grid.
         Parameters
         ----------
@@ -206,7 +206,7 @@ class BmiNwmHs(Bmi):
         """
         return NotImplementedError("get_grid_size")
 
-    def get_grid_spacing(self, grid: int, spacing: numpy.ndarray) -> numpy.ndarray: #TODO: there is no spacing
+    def get_grid_spacing(self, grid: int, spacing: numpy.ndarray) -> numpy.ndarray:
         """Get distance between nodes of the computational grid.
         Parameters
         ----------
@@ -221,7 +221,7 @@ class BmiNwmHs(Bmi):
         """
         return NotImplementedError("get_grid_spacing")
 
-    def get_grid_type(self, grid: int) -> str:  #TODO: not sure
+    def get_grid_type(self, grid: int) -> str:
         """Get the grid type as a string.
         Parameters
         ----------
@@ -232,7 +232,7 @@ class BmiNwmHs(Bmi):
         str
             Type of grid as a string.
         """
-        return "scalar"
+        return None  # there is no grid, so type is none.
 
     def get_grid_x(self, grid: int, x: numpy.ndarray) -> numpy.ndarray:
         """Get coordinates of grid nodes in the x direction.
@@ -316,9 +316,9 @@ class BmiNwmHs(Bmi):
         float
             The model start time.
         """
-        raise NotImplementedError("get_start_time")
+        raise 0.0  # start model time step
 
-    def get_time_step(self) -> float:  #TODO: not sure for hourly data
+    def get_time_step(self) -> float:
         """Current time step of the model.
         The model time step should be of type float.
         Returns
@@ -328,7 +328,7 @@ class BmiNwmHs(Bmi):
         """
         return 1.0
 
-    def get_time_units(self) -> str:  #TODO: not sure
+    def get_time_units(self) -> str:
         """Time units of the model.
         Returns
         -------
@@ -356,7 +356,8 @@ class BmiNwmHs(Bmi):
         ndarray
             The same numpy array that was passed as an input buffer.
         """
-        dest[:] = self._data.values  # TODO: is this for the whole time step?
+        # return all the value at current time step, for scalar it is just one value
+        dest[:] = self._data.values[self._time_index]
 
     def get_value_at_indices(
         self, name: str, dest: numpy.ndarray, inds: numpy.ndarray  # TODO: not sure
@@ -375,7 +376,8 @@ class BmiNwmHs(Bmi):
         array_like
             Value of the model variable at the given location.
         """
-        dest[:] = self._data.values[inds]
+        # return the value at current time step with given index in 1D or 2D grid. when it is scalar no need for ind
+        dest[:] = self._data.values[self._time_index]
 
     def get_value_ptr(self, name: str) -> numpy.ndarray:  # TODO: difference between get_value()?
         """Get a reference to values of the given variable.
@@ -391,7 +393,8 @@ class BmiNwmHs(Bmi):
         array_like
             A reference to a model variable.
         """
-        return self._data.values
+        # return a reference of all the value at current time step. mainly for input data. not useful for scalar value
+        return NotImplementedError('get_value_ptr')
 
     def get_var_grid(self, name: str) -> int:
         """Get grid identifier for the given variable.
@@ -404,7 +407,10 @@ class BmiNwmHs(Bmi):
         int
           The grid identifier.
         """
-        return self._var[name].grid
+        # for scalar there is no grid, identifier will be 0.
+        # this function starts to check other grid property methods
+        # when there is no grid, the only grid property will be get_grid_type() as None.
+        return 0
 
     def get_var_itemsize(self, name: str) -> int:
         """Get memory use for each array element in bytes.
@@ -458,6 +464,7 @@ class BmiNwmHs(Bmi):
         int
             The size of the variable, counted in bytes.
         """
+        # should be nbytes for current time step value
         return self._var[name].nbytes
 
     def get_var_type(self, name: str) -> str:
@@ -523,22 +530,12 @@ class BmiNwmHs(Bmi):
 
         self._data = NwmHs().get_data(**conf) if conf else NwmHs().get_data()
 
-        self._output_var_names = tuple([self._data.variable_name])  # TODO: translate var name into CSDMS standard name
+        self._output_var_names = tuple([self._data.variable_name])
         self._input_var_names = ()
 
-        self._grid = {
-            0: BmiGridUniformRectilinear(
-                shape=(),
-                yx_spacing=(
-                    # float(self._data.attrs["geospatial_lat_resolution"]),
-                    # float(self._data.attrs["geospatial_lon_resolution"]),
-                ),
-                yx_of_lower_left=(
-                    # float(self._data.attrs["geospatial_lat_min"]),
-                    # float(self._data.attrs["geospatial_lat_max"]),
-                ),
-            )
-        }  # TODO: not sure for river reach
+        self._grid = {}  # there is no grid
+
+        self._time_index = 0
 
         self._var = {}
         for name in self._output_var_names:
@@ -546,13 +543,11 @@ class BmiNwmHs(Bmi):
             self._var[name] = BmiVar(
                 dtype=str(array.dtype),
                 itemsize=array.itemsize,
-                nbytes=array.nbytes,
-                units=self._data.attrs["variable_unit_name"],
-                location="scalar",  # TODO: not sure for river reach
-                grid=0,  # TODO: not sure for river reach
+                nbytes=array[self._time_index].nbytes,  # nbytes for current time step value, not the whole time series
+                units=self._data.attrs["variable_unit_name"],  # TODO: translate var name into CSDMS standard name
+                location=None,  # scalar value has no location on a grid (node, face, edge)
+                grid=None,  # there is no grid, grid is none
             )
-
-        self._hour = 0
 
     def set_value(self, name: str, values: numpy.ndarray) -> None:
         """Specify a new value for a model variable.
@@ -592,4 +587,4 @@ class BmiNwmHs(Bmi):
         then they can be computed by the :func:`initialize` method and this
         method can return with no action.
         """
-        self._hour += 1
+        self._time_index += 1
