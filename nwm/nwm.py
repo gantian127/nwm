@@ -155,11 +155,10 @@ class NwmHs:
             else:
                 raise ValueError('Incorrect time, value should be 0, 6, 12, or 18.')
 
-        elif config == 'long_range':
-            if time_lag in list(range(0, 13, 6)):
-                user_input['lag'] = 't{:02}z'.format(init_time)
-            else:
-                raise ValueError('Incorrect time, value should be 0, 6, or 12')
+        if time_lag in list(range(0, 13, 6)):
+            user_input['lag'] = 't{:02}z'.format(init_time)
+        else:
+            raise ValueError('Incorrect time, value should be 0, 6, or 12')
 
         # check geom and variable
         if geom in NwmHs.HS_INFO['geom'].values():
