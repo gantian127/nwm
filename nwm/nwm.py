@@ -17,7 +17,7 @@ class NwmHs:
         },
 
         'available_date': {
-            'rolling': [(datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d'),
+            'rolling': [(datetime.today() - timedelta(days=24)).strftime('%Y-%m-%d'),
                         datetime.today().strftime('%Y-%m-%d')],
             'florence': ['2018-09-01', '2019-10-19'],
             'harvey': ['2017-08-18', '2017-09-06'],
