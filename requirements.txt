@@ -1,0 +1,8 @@
+bmipy
+click
+netcdf4
+numpy
+pyyaml
+requests
+xarray
+owslib
