@@ -69,9 +69,8 @@ from nwm import NwmHs
     "--output",
     default="",
     help="Output file path to store downloaded data.",
-    show_default="",
 )
-def nwm(archive, config, geom, variable, init_time, time_lag, comid, start_date, end_date, output):
+def main(archive, config, geom, variable, init_time, time_lag, comid, start_date, end_date, output):
     comid_list = list(map(int, comid.split(',')))
     dataset = NwmHs().get_data(archive=archive, config=config, geom=geom,variable=variable,
                                comid=comid_list, init_time=init_time, time_lag=time_lag,

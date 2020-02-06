@@ -22,5 +22,5 @@ setup(
         "owslib",
     ],
 
-    # entry_points={"console_scripts": ["nwm=nwm.cli:main"]}, TODO
+    entry_points={"console_scripts": ["nwm=nwm.cli:main"]},
 )
