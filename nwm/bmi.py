@@ -53,6 +53,23 @@ class BmiNwmHs(Bmi):
         """
         return float(self._data.size)
 
+    def get_grid_face_edges(self, grid: int, face_edges: numpy.ndarray) -> numpy.ndarray:
+        """Get the face-edge connectivity.
+
+        Parameters
+        ----------
+        grid : int
+            A grid identifier.
+        face_edges : ndarray of int
+            A numpy array to place the face-edge connectivity.
+
+        Returns
+        -------
+        ndarray of int
+            The input numpy array that holds the face-edge connectivity.
+        """
+        raise NotImplementedError("get_grid_face_edges")
+
     def get_grid_edge_count(self, grid: int) -> int:
         """Get the number of edges in the grid.
         Parameters
@@ -297,6 +314,16 @@ class BmiNwmHs(Bmi):
         """
         return self._input_var_names
 
+    def get_input_item_count(self) -> int:
+        """Count of a model's input variables.
+
+        Returns
+        -------
+        int
+          The number of input variables.
+        """
+        return 0
+
     def get_output_var_names(self) -> Tuple[str]:
         """List of a model's output variables.
         Output variable names must be CSDMS Standard Names, also known
@@ -307,6 +334,16 @@ class BmiNwmHs(Bmi):
             The output variables for the model.
         """
         return self._output_var_names
+
+    def get_output_item_count(self) -> int:
+        """Count of a model's output variables.
+
+        Returns
+        -------
+        int
+          The number of output variables.
+        """
+        return 1
 
     def get_start_time(self) -> float:
         """Start time of the model.
@@ -588,3 +625,13 @@ class BmiNwmHs(Bmi):
         method can return with no action.
         """
         self._time_index += 1
+
+    def update_until(self, time: float) -> None:
+        """Advance model state until the given time.
+
+        Parameters
+        ----------
+        time : float
+            A model time later than the current model time.
+        """
+        raise NotImplementedError("update_until")
