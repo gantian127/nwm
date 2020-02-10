@@ -179,7 +179,7 @@ class BmiNwmHs(Bmi):
             The input numpy array that holds the coordinates of the grid's
             lower-left corner.
         """
-        return NotImplementedError("get_grid_origin")
+        raise NotImplementedError("get_grid_origin")
 
     def get_grid_rank(self, grid: int) -> int:
         """Get number of dimensions of the computational grid.
@@ -208,7 +208,7 @@ class BmiNwmHs(Bmi):
             The input numpy array that holds the grid's shape.
         """
 
-        return NotImplementedError("get_grid_shape")
+        raise NotImplementedError("get_grid_shape")
 
     def get_grid_size(self, grid: int) -> int:
         """Get the total number of elements in the computational grid.
@@ -221,7 +221,7 @@ class BmiNwmHs(Bmi):
         int
             Size of the grid.
         """
-        return NotImplementedError("get_grid_size")
+        raise NotImplementedError("get_grid_size")
 
     def get_grid_spacing(self, grid: int, spacing: numpy.ndarray) -> numpy.ndarray:
         """Get distance between nodes of the computational grid.
@@ -236,7 +236,7 @@ class BmiNwmHs(Bmi):
         ndarray of float
             The input numpy array that holds the grid's spacing.
         """
-        return NotImplementedError("get_grid_spacing")
+        raise NotImplementedError("get_grid_spacing")
 
     def get_grid_type(self, grid: int) -> str:
         """Get the grid type as a string.
@@ -249,7 +249,7 @@ class BmiNwmHs(Bmi):
         str
             Type of grid as a string.
         """
-        return None  # there is no grid, so type is none.
+        return "none"  # there is no grid, so type is none.
 
     def get_grid_x(self, grid: int, x: numpy.ndarray) -> numpy.ndarray:
         """Get coordinates of grid nodes in the x direction.
@@ -353,7 +353,7 @@ class BmiNwmHs(Bmi):
         float
             The model start time.
         """
-        raise 0.0  # start model time step
+        return 0.0  # start model time step
 
     def get_time_step(self) -> float:
         """Current time step of the model.
@@ -431,7 +431,7 @@ class BmiNwmHs(Bmi):
             A reference to a model variable.
         """
         # return a reference of all the value at current time step. mainly for input data. not useful for scalar value
-        return NotImplementedError('get_value_ptr')
+        raise NotImplementedError('get_value_ptr')
 
     def get_var_grid(self, name: str) -> int:
         """Get grid identifier for the given variable.
