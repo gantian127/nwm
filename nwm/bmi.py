@@ -582,8 +582,8 @@ class BmiNwmHs(Bmi):
                 itemsize=array.itemsize,
                 nbytes=array[self._time_index].nbytes,  # nbytes for current time step value, not the whole time series
                 units=self._data.attrs["variable_unit_name"],  # TODO: translate var name into CSDMS standard name
-                location=None,  # scalar value has no location on a grid (node, face, edge)
-                grid=None,  # there is no grid, grid is none
+                location="none",  # scalar value has no location on a grid (node, face, edge)
+                grid="none",  # there is no grid, grid is none
             )
 
     def set_value(self, name: str, values: numpy.ndarray) -> None:
