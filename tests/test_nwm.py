@@ -93,22 +93,21 @@ def test_comid():
 
 
 # test http requests for multiple archive options (streamflow variable)
-def test_hs_request_for_rolling():
-    """
-    this test is supposed to fail.
-    """
-    for config in NwmHs.HS_INFO['config'].values():
 
-        start_date = NwmHs.HS_INFO['available_date']['rolling'][0]
-        end_date = NwmHs.HS_INFO['available_date']['rolling'][1]
-        print(config, start_date, end_date)
-        if config != 'medium_range':  # the medium range data doesn't work in HydroShare
-            dataset = NwmHs().get_data(archive='rolling', config=config, geom='channel_rt',
-                                       variable='streamflow', start_date=start_date, end_date=end_date)
-        else:
-            continue
-
-        assert isinstance(dataset, xarray.core.dataarray.DataArray)
+# this is disabled because rolling data availability is not stable
+# def test_hs_request_for_rolling():
+#     for config in NwmHs.HS_INFO['config'].values():
+#
+#         start_date = NwmHs.HS_INFO['available_date']['rolling'][0]
+#         end_date = NwmHs.HS_INFO['available_date']['rolling'][1]
+#         print(config, start_date, end_date)
+#         if config != 'medium_range':  # the medium range data doesn't work in HydroShare
+#             dataset = NwmHs().get_data(archive='rolling', config=config, geom='channel_rt',
+#                                        variable='streamflow', start_date=start_date, end_date=end_date)
+#         else:
+#             continue
+#
+#         assert isinstance(dataset, xarray.core.dataarray.DataArray)
 
 
 def test_hs_request_for_harvey():
