@@ -1,3 +1,4 @@
+import os
 import click
 
 from . import __version__
@@ -65,14 +66,14 @@ from nwm import NwmHs
     help="End date for data download.",
     show_default="2017-09-06",
 )
-@click.option(
-    "--output",
-    default="",
-    help="Output file path to store downloaded data.",
+@click.argument(
+    'output',
+    type=click.Path(exists=False)
 )
 def main(archive, config, geom, variable, init_time, time_lag, comid, start_date, end_date, output):
     comid_list = list(map(int, comid.split(',')))
     dataset = NwmHs().get_data(archive=archive, config=config, geom=geom,variable=variable,
                                comid=comid_list, init_time=init_time, time_lag=time_lag,
                                start_date=start_date, end_date=end_date, output=output)
-    print(dataset)
+    if os.path.isfile(output):
+        print('Done')
