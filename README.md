@@ -14,7 +14,7 @@ Python library to fetch and process the National Water Model (NWM) NetCDF datase
 Install package
 
 ```
-$ python setup.py install nwm
+$ pip install nwm
 ```
 
 Example 
