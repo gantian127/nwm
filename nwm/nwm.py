@@ -108,14 +108,15 @@ class NwmHs:
         if archive in NwmHs.HS_INFO['archive'].values():
             user_input['archive'] = archive
         else:
-            raise ValueError('Please set "archive" with the following options: {}'.format(NwmHs.HS_INFO['archive']))
+            raise ValueError('Please set "archive" with the following options: {}.'.format(
+                ', '.join(NwmHs.HS_INFO['archive'].values())))
 
         # check config
         if config in NwmHs.HS_INFO['config'].values():
             user_input['config'] = config
         else:
             raise ValueError('Please set config with following options: {}'.format(
-                ','.join(NwmHs.HS_INFO['config'].values())))
+                ', '.join(NwmHs.HS_INFO['config'].values())))
 
         # check time
         try:
@@ -133,7 +134,8 @@ class NwmHs:
                     user_input['startDate'] = start_date
                 else:
                     raise ValueError('Incorrect start date, should between {} and {} for {} archive'.format(
-                        NwmHs.HS_INFO['available_date'][archive][0], NwmHs.HS_INFO['available_date'][archive][1], archive))
+                        NwmHs.HS_INFO['available_date'][archive][0], NwmHs.HS_INFO['available_date'][archive][1],
+                        archive))
 
                 if config == 'analysis_assim':
                     if start_datetime < end_datetime:
@@ -158,7 +160,7 @@ class NwmHs:
         if time_lag in list(range(0, 13, 6)):
             user_input['lag'] = 't{:02}z'.format(init_time)
         else:
-            raise ValueError('Incorrect time, value should be 0, 6, or 12')
+            raise ValueError('Incorrect time, value should be 0, 6, 12, or 18.')
 
         # check geom and variable
         if geom in NwmHs.HS_INFO['geom'].values():
@@ -170,9 +172,11 @@ class NwmHs:
                         user_input['variable'] = variable
                         break
                     else:
-                        raise ValueError('Please set "variable" with following options:{}'.format(NwmHs.HS_INFO[geom_option].values()))
+                        raise ValueError('Please set "variable" with following options: {}.'.format(
+                            ', '.join(NwmHs.HS_INFO[geom_option].values())))
         else:
-            raise ValueError('Please set "geom" with following options:{}'.format(NwmHs.HS_INFO['geom'].values()))
+            raise ValueError('Please set "geom" with following options: {}.'.format(
+                ', '.join(NwmHs.HS_INFO['geom'].values())))
 
         # check comid
         if isinstance(comid, (int, list, tuple)) and all(isinstance(item, int) for item in comid):
@@ -184,8 +188,8 @@ class NwmHs:
                 raise ValueError('Please set "comid" as a list of one COMID (e.g. [11359107]) for channel_rt and '
                                  'reservoir or two COMID (e.g., [1636,2036]) for land and forcing')
         else:
-            raise ValueError('Please set "comid" as a list of one COMID (e.g. [11359107]) for channel_rt and reservoir '
-                             'or two COMID (e.g., [1636,2036]) for land and forcing')
+            raise ValueError('Please set "comid" as a list of one value (e.g. [11359107]) for channel_rt and reservoir '
+                             'or two values (e.g., [1636,2036]) for land and forcing')
 
         return user_input
 
