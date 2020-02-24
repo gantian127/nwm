@@ -195,7 +195,13 @@ class NwmHs:
         hs_link = 'https://hs-apps.hydroshare.org/apps/nwm-forecasts/api/GetWaterML/'
         r = requests.get(hs_link, params=user_input,
                          headers={'Authorization': 'Token 2b2c17f99447ad2497c8090569caac530e1ce13a'})
-        r.raise_for_status()
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError:
+            print('Requested data is not available.\n'
+                  'Please check available data options and corresponding parameter settings '
+                  'at https://nwm.readthedocs.io/')
+            raise
 
         # get time series data from waterML
         series = wml(r.content).response
