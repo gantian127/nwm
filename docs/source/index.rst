@@ -79,20 +79,20 @@ Parameter settings
 
     * analysis_assim + channel_rt: "streamflow" or "velocity".
     * analysis_assim + reservoir: "inflow" or "outflow".
-    * analysis_assim + land: "SNOWH", "SNEQV", "FSNO", "ACCET", "SOILSAT_TOP", or "SNOWT_AVG".
+    * analysis_assim + land: "SNOWH", "SNEQV", "FSNO", "ACCET", or "SOILSAT_TOP".
     * analysis_assim + forcing: "RAINRATE", "LWDOWN", "PSFC", "Q2D", "SWDOWN", "T2D", "U2D", "V2D".
     * short_range + channel_rt: "streamflow" or "velocity".
     * short_range + reservoir: "inflow" or "outflow".
-    * short_range + land: "SNOWH", "SNEQV", "FSNO", "ACCET", "SOILSAT_TOP", or "SNOWT_AVG".
+    * short_range + land: "SNOWH", "SNEQV", "FSNO", "ACCET", or "SOILSAT_TOP".
     * short_range + forcing: "RAINRATE", "LWDOWN", "PSFC", "Q2D", "SWDOWN", "T2D", "U2D", "V2D".
     * medium_range + channel_rt: "streamflow" or "velocity".
     * medium_range + reservoir: "inflow" or "outflow".
-    * medium_range + land: "SNOWH", "SNEQV", "FSNO", "ACCET", "SOILSAT_TOP", "SNOWT_AVG", "UGDRNOFF",
+    * medium_range + land: "SNOWH", "SNEQV", "FSNO", "ACCET", "SOILSAT_TOP", "UGDRNOFF",
       "ACCECAN","SOIL_T", "SOIL_M", or "CANWAT".
     * medium_range + forcing: "RAINRATE", "LWDOWN", "PSFC", "Q2D", "SWDOWN", "T2D", "U2D", "V2D".
     * long_range + channel_rt: "streamflow".
     * long_range + reservoir: "inflow" or "outflow".
-    * long_range + land: "SNEQV", "ACCET", "SOILSAT", "UGDRNOFF", "SFCRNOFF", "CANWAT".
+    * long_range + land: "SNEQV", "ACCET", "SOILSAT_TOP", "UGDRNOFF", "SFCRNOFF", "CANWAT".
     * long_range + forcing: N/A (long_range has no forcing files.)
 
     .. table:: **Variable Options**
@@ -107,7 +107,12 @@ Parameter settings
         FSNO                Snow Cover                                    land
         ACCET               Accumulated Total ET                          land
         SOILSAT_TOP         Near Surface Soil Saturation                  land
-        SNOWT_AVG           Average Snow Temperature                      land
+        UGDRNOFF            Accumulated Groundwater Runoff                land
+        SFCRNOFF            Accumulated Surface Runoff                    land
+        ACCECAN             Accumulated Canopy Evaporation                land
+        SOIL_T              Soil Temperature                              land
+        SOIL_M              Volumetric Soil Moisture                      land
+        CANWAT              Total Canopy Water                            land
         inflow              Inflow                                        reservoir
         outflow             Outflow                                       reservoir
         RAINRATE            Rain Rate                                     forcing
