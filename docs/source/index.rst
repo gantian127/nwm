@@ -121,7 +121,8 @@ Parameter settings
 
 * **comid**: The identifier of the stream reach, reservoir, or grid cell for the forecast. Options include:
     * single value: identifier for a stream reach or reservoir when "geom" is "channel_rt" or "reservoir". e.g. [5781915]
-    * two values: identifier for a grid cell when "geom" is "land" or "forcing". e.g., [1636, 2036]
+    * two values: identifier for a grid cell when "geom" is "land" or "forcing".
+      Enter the grid south_north index followed by a comma and then the grid west_east index. e.g., [1636, 2036]
 
 * **init_time**: The UTC time of day at which the forecast is initialized, represented by an hour from "00" to "23".
   Time "00" corresponds to 12:00AM, and so forth up to time "23" for 11:00PM.
