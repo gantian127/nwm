@@ -44,7 +44,12 @@ class NwmHs:
             'Snow Cover': 'FSNO',
             'Accumulated Total ET': 'ACCET',
             'Near Surface Soil Saturation': 'SOILSAT_TOP',
-            'Average Snow Temperature': 'SNOWT_AVG'
+            'Average Snow Temperature': 'SNOWT_AVG',
+            'Accumulated Groundwater Runoff': 'UGDRNOFF',
+            'Accumulated Canopy Evaporation': 'ACCECAN',
+            'Soil Temperature': 'SOIL_T',
+            'Volumetric Soil Moisture': 'SOIL_M',
+            'Total Canopy Water': 'CANWAT',
         },
 
         'channel_rt': {
