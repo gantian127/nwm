@@ -75,7 +75,8 @@ Parameter settings
     * forcing: climate forcing variable data
 
 * **variable**: The variable of the forecast. Variable option is available depending on the specified configuration
-  (config) and geometry (geom) settings. Details for variable option are listed in the table below.
+  (config) and geometry (geom) settings. Details for variable option are listed in the table below. Please note data may
+  be unavailable for some archive options with the following configurations.
 
     * analysis_assim + channel_rt: "streamflow" or "velocity".
     * analysis_assim + reservoir: "inflow" or "outflow".
@@ -84,12 +85,12 @@ Parameter settings
     * short_range + channel_rt: "streamflow" or "velocity".
     * short_range + reservoir: "inflow" or "outflow".
     * short_range + land: "SNOWH", "SNEQV", "FSNO", "ACCET", or "SOILSAT_TOP".
-    * short_range + forcing: "RAINRATE", "LWDOWN", "PSFC", "Q2D", "SWDOWN", "T2D", "U2D", "V2D".
+    * short_range + forcing: "RAINRATE", "LWDOWN", "SWDOWN", "Q2D", "T2D", "U2D", "V2D".
     * medium_range + channel_rt: "streamflow" or "velocity".
     * medium_range + reservoir: "inflow" or "outflow".
     * medium_range + land: "SNOWH", "SNEQV", "FSNO", "ACCET", "SOILSAT_TOP", "UGDRNOFF",
       "ACCECAN","SOIL_T", "SOIL_M", or "CANWAT".
-    * medium_range + forcing: "RAINRATE", "LWDOWN", "PSFC", "Q2D", "SWDOWN", "T2D", "U2D", "V2D".
+    * medium_range + forcing: "RAINRATE", "LWDOWN", "SWDOWN", "Q2D", "T2D", "U2D", "V2D".
     * long_range + channel_rt: "streamflow".
     * long_range + reservoir: "inflow" or "outflow".
     * long_range + land: "SNEQV", "ACCET", "SOILSAT_TOP", "UGDRNOFF", "SFCRNOFF", "CANWAT".
