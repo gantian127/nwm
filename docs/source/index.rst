@@ -31,7 +31,12 @@ Installation
 Download NWM Data
 +++++++++++++++++++++
 
-"NwmHs" class downloads and stores the NWM data as an xarray object for visualization or analysis.
+"NwmHs" class is used to download and store the NWM data as an xarray object for visualization or analysis.
+
+Please use binder to test and run the code below. |binder|
+
+.. |binder| image:: https://mybinder.org/badge_logo.svg
+ :target: https://mybinder.org/v2/gh/gantian127/nwm/master?filepath=notebooks%2Fnwm.ipynb
 
 .. code-block:: python
 
