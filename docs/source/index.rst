@@ -125,7 +125,11 @@ Parameter settings
         V2D                 10-m V-component of Wind                      forcing
         ================    ==========================================    =====================
 
-* **comid**: The identifier of the stream reach, reservoir, or grid cell for the forecast. Options include:
+* **comid**: The identifier of the stream reach, reservoir, or grid cell for the forecast. Options are listed below.
+  To find out the corresponding comid of an interested geometry, please use the
+  `HydroShare National Water Model Web App <https://hs-apps.hydroshare.org/apps/nwm-forecasts/>`_
+  (HydroShare user account is required).
+
     * single value: identifier for a stream reach or reservoir when "geom" is "channel_rt" or "reservoir". e.g. [5781915]
     * two values: identifier for a grid cell when "geom" is "land" or "forcing".
       Enter the grid south_north index followed by a comma and then the grid west_east index. e.g., [1636, 2036]
