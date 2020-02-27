@@ -10,11 +10,9 @@ nwm package provides a set of functions that allows downloading of the `National
 These functions were implemented using the API of the
 `HydroShare National Water Model Web App <https://hs-apps.hydroshare.org/apps/nwm-forecasts/>`_.
 
-nwm package includes a Basic Data Interface (BDI),
+nwm package includes a `Basic Model Interface (BMI) <https://bmi.readthedocs.io/en/latest/>`_,
 which converts the NWM dataset into a reusable, plug-and-play data component for
 `Community Surface Dynamics Modeling System (CSDMS) <https://csdms.colorado.edu/wiki/Main_Page>`_ modeling framework.
-This BDI was implemented using `Basic Model Interface (BMI) <https://bmi.readthedocs.io/en/latest/>`_
-library specification created by CSDMS.
 
 
 Getting Started
