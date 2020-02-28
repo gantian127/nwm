@@ -14,7 +14,7 @@ jobs:
     os: linux
     script:
     - pip install flake8
-    - make lint
+    - flake8 nwm
   - stage: deploy
     if: tag =~ v.*$
     os: osx
