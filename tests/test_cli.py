@@ -124,5 +124,3 @@ def test_end_date_option(tmpdir):
         result = runner.invoke(main, ["--config=analysis_assim", "--start_date=2017-09-05",
                                       "--end_date=2017-09-06", "test.xml"])
         assert result.exit_code == 0
-
-

@@ -31,7 +31,7 @@ from nwm import NwmHs
     help="Variable type for data download, such as streamflow and velocity.",
     show_default="streamflow"
 )
-@click.option( # TODO fix int input issue
+@click.option(  # TODO fix int input issue
     "--comid",
     default='5781915',
     help="COMID for a river reach (e.g. 5781915) or a grid (e.g. 1635, 2030)",
@@ -72,8 +72,8 @@ from nwm import NwmHs
 )
 def main(archive, config, geom, variable, init_time, time_lag, comid, start_date, end_date, output):
     comid_list = list(map(int, comid.split(',')))
-    dataset = NwmHs().get_data(archive=archive, config=config, geom=geom,variable=variable,
-                               comid=comid_list, init_time=init_time, time_lag=time_lag,
-                               start_date=start_date, end_date=end_date, output=output)
+    NwmHs().get_data(archive=archive, config=config, geom=geom, variable=variable,
+                     comid=comid_list, init_time=init_time, time_lag=time_lag,
+                     start_date=start_date, end_date=end_date, output=output)
     if os.path.isfile(output):
         print('Done')
