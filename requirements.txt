@@ -6,3 +6,5 @@ pyyaml
 requests
 xarray
 owslib
+cftime
+pandas

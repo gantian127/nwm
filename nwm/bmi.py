@@ -4,6 +4,8 @@ from typing import Tuple
 
 import numpy
 import yaml
+import pandas as pd
+import cftime
 
 from bmipy import Bmi
 
@@ -42,7 +44,7 @@ class BmiNwmHs(Bmi):
         float
             The current model time.
         """
-        return float(self._time_index)
+        return float(self._cftime_array[self._time_index])
 
     def get_end_time(self) -> float:
         """End time of the model.
@@ -51,7 +53,7 @@ class BmiNwmHs(Bmi):
         float
             The maximum model time.
         """
-        return float(self._data.size)
+        return float(self._cftime_array[-1])
 
     def get_grid_face_edges(self, grid: int, face_edges: numpy.ndarray) -> numpy.ndarray:
         """Get the face-edge connectivity.
@@ -353,7 +355,7 @@ class BmiNwmHs(Bmi):
         float
             The model start time.
         """
-        return 0.0  # start model time step
+        return float(self._cftime_array[0])  # start model time step
 
     def get_time_step(self) -> float:
         """Current time step of the model.
@@ -375,7 +377,7 @@ class BmiNwmHs(Bmi):
         -----
         CSDMS uses the UDUNITS standard from Unidata.
         """
-        return "hour"
+        return self._cftime_unit
 
     def get_value(self, name: str, dest: numpy.ndarray) -> numpy.ndarray:
         """Get a copy of values of the given variable.
@@ -573,6 +575,9 @@ class BmiNwmHs(Bmi):
         self._grid = {}  # there is no grid
 
         self._time_index = 0
+        time_array = pd.to_datetime(numpy.datetime_as_string(self._data['time'])).to_pydatetime()
+        self._cftime_unit = 'seconds since 1970-01-01 00:00:00 UTC'
+        self._cftime_array = cftime.date2num(time_array, self._cftime_unit)
 
         self._var = {}
         for name in self._output_var_names:

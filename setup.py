@@ -20,6 +20,8 @@ setup(
         "requests",
         "xarray",
         "owslib",
+        "cftime",
+        "pandas",
     ],
 
     entry_points={"console_scripts": ["nwm=nwm.cli:main"]},
