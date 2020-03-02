@@ -365,7 +365,7 @@ class BmiNwmHs(Bmi):
         float
             The time step used in model.
         """
-        return 1.0
+        return self._time_step
 
     def get_time_units(self) -> str:
         """Time units of the model.
@@ -578,6 +578,10 @@ class BmiNwmHs(Bmi):
         time_array = pd.to_datetime(numpy.datetime_as_string(self._data['time'])).to_pydatetime()
         self._cftime_unit = 'seconds since 1970-01-01 00:00:00 UTC'
         self._cftime_array = cftime.date2num(time_array, self._cftime_unit)
+        if len(self._cftime_array) > 1:
+            self._time_step = self._cftime_array[1] - self._cftime_array[0]
+        else:
+            self._time_step = 0
 
         self._var = {}
         for name in self._output_var_names:
@@ -586,7 +590,7 @@ class BmiNwmHs(Bmi):
                 dtype=str(array.dtype),
                 itemsize=array.itemsize,
                 nbytes=array[self._time_index].nbytes,  # nbytes for current time step value, not the whole time series
-                units=self._data.attrs["variable_unit_name"],  # TODO: translate var name into CSDMS standard name
+                units=self._data.attrs["variable_unit"],  # TODO: translate var name into CSDMS standard name
                 location="none",  # scalar value has no location on a grid (node, face, edge)
                 grid="none",  # there is no grid, grid is none
             )
