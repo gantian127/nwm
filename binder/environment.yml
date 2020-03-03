@@ -13,5 +13,5 @@ dependencies:
   - pip
   - pip:
     - owslib
-    - cftime=1.1.0
+    - cftime==1.1.0
 
