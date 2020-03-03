@@ -29,8 +29,6 @@ Installation
 Download NWM Data
 +++++++++++++++++++++
 
-"NwmHs" class is used to download and store the NWM data as an xarray object for visualization or analysis.
-
 You can launch binder to test and run the code below. |binder|
 
 .. |binder| image:: https://mybinder.org/badge_logo.svg
@@ -56,7 +54,7 @@ You can launch binder to test and run the code below. |binder|
     plt.title('{}; {}'.format(dataset.archive.upper(), dataset.site_name))
 
 
-**Example 2**: use BmiNwmHs class to download data (Demonstration of how to use BMI)
+**Example 2**: use BmiNwmHs class to download data (Demonstration of how to use BMI).
 
 .. code-block:: python
 
