@@ -17,10 +17,11 @@ Install package
 $ pip install nwm
 ```
 
-Example 
+Example 1: use NwmHs class to download data (Recommended method)
 
 ```python
 import matplotlib.pyplot as plt
+
 from nwm import NwmHs
 
 # get data from National water model HydroShare App
@@ -33,8 +34,54 @@ dataset.attrs
 
 # plot data
 dataset.plot()
-plt.ylabel('{}({})'.format(dataset.variable_unit_name,dataset.variable_unit))
-plt.title('{}; {}'.format(dataset.archive.upper(), dataset.site_name))
+plt.xlabel('Year 2017')
+plt.ylabel('{} ({})'.format(dataset.variable_name,dataset.variable_unit))
+plt.title('Short range streamflow forecast for Channel 5781915 during Harvey Hurricane Event')
 ```
 
+Example 2: use BmiNwmHs class to download data (Demonstration of how to use BMI)
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+import cftime
+
+from nwm import BmiNwmHs
+
+
+# initiate a data component
+data_comp = BmiNwmHs()
+data_comp.initialize('config_file.yaml')
+
+# get variable info
+var_name = data_comp.get_output_var_names()[0]
+var_unit = data_comp.get_var_units(var_name)
+
+# get time info
+start_time = data_comp.get_start_time()
+end_time = data_comp.get_end_time()
+time_step = data_comp.get_time_step()
+time_unit = data_comp.get_time_units()
+time_steps = int((end_time - start_time)/time_step) + 1
+
+# initiate numpy arrays to store data
+time_value = np.empty(1)
+stream_value = np.empty(1)
+cftime_array = np.empty(time_steps)
+stream_array = np.empty(time_steps)
+
+for i in range(0, time_steps):
+    data_comp.get_value(var_name, stream_value)
+    stream_array[i] = stream_value
+    cftime_array[i] = data_comp.get_current_time()
+    data_comp.update()
+
+time_array = cftime.num2date(cftime_array, time_unit)
+
+# plot data
+plt.plot(time_array, stream_array)
+plt.xlabel('Year 2017')
+plt.ylabel('{} ({})'.format(var_name, var_unit))
+plt.title('Short range streamflow forecast for Channel 5781915 during Harvey Hurricane Event')
+```
 
