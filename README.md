@@ -41,7 +41,7 @@ plt.xlabel('Year 2017')
 plt.ylabel('{} ({})'.format(dataset.variable_name,dataset.variable_unit))
 plt.title('Short range streamflow forecast for Channel 5781915 during Harvey Hurricane Event')
 ```
-![ts_plot](/nwm/docs/_static/ts_plot.png)
+![ts_plot](docs/source/_static/ts_plot.png)
 
 ##### Example 2: use BmiNwmHs class to download data (Demonstration of how to use BMI)
 
