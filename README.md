@@ -68,7 +68,6 @@ time_unit = data_comp.get_time_units()
 time_steps = int((end_time - start_time)/time_step) + 1
 
 # initiate numpy arrays to store data
-time_value = np.empty(1)
 stream_value = np.empty(1)
 cftime_array = np.empty(time_steps)
 stream_array = np.empty(time_steps)
