@@ -11,16 +11,16 @@ Python library to fetch and process the National Water Model (NWM) NetCDF datase
 
 
 
-####Install package
+#### Install package
 
 ```
 $ pip install nwm
 ```
 
-####Download NWM Data
+#### Download NWM Data
 You can launch binder to test and run the code below.
 
-#####Example 1: use NwmHs class to download data (Recommended method)
+##### Example 1: use NwmHs class to download data (Recommended method)
 
 ```python
 import matplotlib.pyplot as plt
@@ -42,7 +42,7 @@ plt.ylabel('{} ({})'.format(dataset.variable_name,dataset.variable_unit))
 plt.title('Short range streamflow forecast for Channel 5781915 during Harvey Hurricane Event')
 ```
 
-#####Example 2: use BmiNwmHs class to download data (Demonstration of how to use BMI)
+##### Example 2: use BmiNwmHs class to download data (Demonstration of how to use BMI)
 
 ```python
 import matplotlib.pyplot as plt
