@@ -31,9 +31,6 @@ Download NWM Data
 
 You can launch binder to test and run the code below. |binder|
 
-.. |binder| image:: https://mybinder.org/badge_logo.svg
- :target: https://mybinder.org/v2/gh/gantian127/nwm/master?filepath=notebooks%2Fnwm.ipynb
-
 **Example 1**: use NwmHs class to download data (Recommended method)
 
 .. code-block:: python
@@ -50,9 +47,12 @@ You can launch binder to test and run the code below. |binder|
 
     # plot data
     dataset.plot()
-    plt.ylabel('{}({})'.format(dataset.variable_unit_name,dataset.variable_unit))
-    plt.title('{}; {}'.format(dataset.archive.upper(), dataset.site_name))
+    plt.xlabel('Year 2017')
+    plt.ylabel('{} ({})'.format(dataset.variable_name,dataset.variable_unit))
+    plt.title('Short range streamflow forecast for Channel 5781915 during Harvey Hurricane Event')
 
+
+|ts_plot|
 
 **Example 2**: use BmiNwmHs class to download data (Demonstration of how to use BMI).
 
@@ -81,7 +81,6 @@ You can launch binder to test and run the code below. |binder|
     time_steps = int((end_time - start_time)/time_step) + 1
 
     # initiate numpy arrays to store data
-    time_value = np.empty(1)
     stream_value = np.empty(1)
     cftime_array = np.empty(time_steps)
     stream_array = np.empty(time_steps)
@@ -99,6 +98,8 @@ You can launch binder to test and run the code below. |binder|
     plt.xlabel('Year 2017')
     plt.ylabel('{} ({})'.format(var_name, var_unit))
     plt.title('Short range streamflow forecast for Channel 5781915 during Harvey Hurricane Event')
+
+
 
 Parameter settings
 +++++++++++++++++++
@@ -201,4 +202,10 @@ Parameter settings
 * **output**: The file path of the WaterML file to store the downloaded data.
 
 
+:: links
+
+.. |binder| image:: https://mybinder.org/badge_logo.svg
+ :target: https://mybinder.org/v2/gh/gantian127/nwm/master?filepath=notebooks%2Fnwm.ipynb
+
+.. |ts_plot| image:: _static/ts_plot.png
 
