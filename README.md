@@ -41,6 +41,7 @@ plt.xlabel('Year 2017')
 plt.ylabel('{} ({})'.format(dataset.variable_name,dataset.variable_unit))
 plt.title('Short range streamflow forecast for Channel 5781915 during Harvey Hurricane Event')
 ```
+![ts_plot](/nwm/docs/_static/ts_plot.png)
 
 ##### Example 2: use BmiNwmHs class to download data (Demonstration of how to use BMI)
 
@@ -78,7 +79,7 @@ for i in range(0, time_steps):
     cftime_array[i] = data_comp.get_current_time()
     data_comp.update()
 
-time_array = cftime.num2date(cftime_array, time_unit)
+time_array = cftime.num2date(cftime_array, time_unit, only_use_cftime_datetimes=False, only_use_python_datetimes=True)
 
 # plot data
 plt.plot(time_array, stream_array)
