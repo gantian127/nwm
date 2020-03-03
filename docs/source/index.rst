@@ -91,7 +91,7 @@ You can launch binder to test and run the code below. |binder|
         cftime_array[i] = data_comp.get_current_time()
         data_comp.update()
 
-    time_array = cftime.num2date(cftime_array, time_unit)
+    time_array = cftime.num2date(cftime_array, time_unit, only_use_cftime_datetimes=False, only_use_python_datetimes=True)
 
     # plot data
     plt.plot(time_array, stream_array)
