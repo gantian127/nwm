@@ -24,18 +24,17 @@ You can launch binder to test and run the code below.
 
 ```python
 import matplotlib.pyplot as plt
-
 from nwm import NwmHs
 
 # get data from National water model HydroShare App
-dataset = NwmHs().get_data(archive='harvey', config='short_range', geom='channel_rt',
-                           variable='streamflow', comid=[5781915], init_time=0, 
-                           start_date='2017-08-23')
+dataset = NwmHs().get_data(archive='harvey', config='short_range', geom='channel_rt', variable='streamflow',
+                           comid=[5781915], init_time=0, start_date='2017-08-23')
 
 # show metadata
 dataset.attrs
 
 # plot data
+plt.figure(figsize=(9,5))
 dataset.plot()
 plt.xlabel('Year 2017')
 plt.ylabel('{} ({})'.format(dataset.variable_name,dataset.variable_unit))
@@ -60,6 +59,7 @@ data_comp.initialize('config_file.yaml')
 # get variable info
 var_name = data_comp.get_output_var_names()[0]
 var_unit = data_comp.get_var_units(var_name)
+print(' variable_name: {}\n var_unit: {}\n'.format(var_name, var_unit))
 
 # get time info
 start_time = data_comp.get_start_time()
@@ -67,11 +67,12 @@ end_time = data_comp.get_end_time()
 time_step = data_comp.get_time_step()
 time_unit = data_comp.get_time_units()
 time_steps = int((end_time - start_time)/time_step) + 1
+print(' start_time:{}\n end_time:{}\n time_step:{}\n time_unit:{}\n time_steps:{}\n'.format(start_time, end_time, time_step, time_unit, time_steps))
 
 # initiate numpy arrays to store data
 stream_value = np.empty(1)
-cftime_array = np.empty(time_steps)
 stream_array = np.empty(time_steps)
+cftime_array = np.empty(time_steps)
 
 for i in range(0, time_steps):
     data_comp.get_value(var_name, stream_value)
@@ -82,6 +83,7 @@ for i in range(0, time_steps):
 time_array = cftime.num2date(cftime_array, time_unit, only_use_cftime_datetimes=False, only_use_python_datetimes=True)
 
 # plot data
+plt.figure(figsize=(9,5))
 plt.plot(time_array, stream_array)
 plt.xlabel('Year 2017')
 plt.ylabel('{} ({})'.format(var_name, var_unit))
