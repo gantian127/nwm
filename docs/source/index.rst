@@ -205,8 +205,7 @@ Parameter settings
 
 * **output**: The file path of the WaterML file to store the downloaded data.
 
-
-:: links
+.. links:
 
 .. |binder| image:: https://mybinder.org/badge_logo.svg
  :target: https://mybinder.org/v2/gh/gantian127/nwm/master?filepath=notebooks%2Fnwm.ipynb
