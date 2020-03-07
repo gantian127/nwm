@@ -22,7 +22,7 @@ jobs:
     script:
     - pip install twine wheel
     - python setup.py bdist_wheel
-    - twine upload -u gantian127 -p$PYPI_PASS dist/*nwm*
+    - twine upload dist/*nwm* -u gantian127 -p$PYPI_PASS
 before_install:
 - |
   if [[ $TRAVIS_OS_NAME == "osx" ]]; then
