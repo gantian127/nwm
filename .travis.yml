@@ -7,7 +7,8 @@ env:
   - CONDA_ENV=3.7
   - CONDA_ENV=3.8
   global:
-    secure: r7GrU+K3wtdrtV5lvlKCESH8Jmh2L5H2F/fGybAOKXxVdLuB7aZDY3cMR/smcFPNfDOTCosNOO7qo/8lVJoLxjjwoevGhQx/zONjWZvgkAdPx4wct/z2ry0AmAMkR8wEJfvmooFZhJzQWuRQaJsk7S2CODM9YfYycJTV9e5AnaoZJG3e17lwiZOdBxmuKxXa2CjaiD1uYTQOmmHYSJ+24lYpBjpIGcFCYkqjQ2FgfBYLwupLqs6S+Qmhvw+C9vmh3L5a8VaCj65kSgZLZRNL07qKQfEvernC9LWQvDKe0AAtlCvtIf1rVPaKFF+ygfIwy6C5t3L1Za1p+W4VdQqFUKKRZsNZg3ZX9q5muC/0xdrvrnjToNw50k8ixbfTFk+C7bDrEPfSE2Rv83ams+qLhP7ikboVPjy0Oly9EX2TVDRmejfi6PYcNP+LH4u8pF9j0KZYCV+HMFOibDjNGWA09kZ4Q1yAu2GNoY8Db7kY8WzzWGaULXVepaZyqR/pBBUS3hzYwzXz/Dc4BTQ1U/pJoITa2G92KziYyeF56TBBBFghqQcfC+SLAIgMfYh7SfYOUbnaIFYWYdm9erul+q2i2Z9LdeJG6QGCZhqRCo5oePBcnhI+mT6FYVznYb5Z8GPfEC5+DUcOuBxfna26sCP3edeSu7hefl098tBn0pXNsp8=
+    secure: F5EeJ3TuChOm7biRYP6RODzjANANsQYvOC6pwc4EubvDu0FhdQXe/L2qy3cqisnSQO1XPOzf0kLKKVPBCXhM+zrFjjCqTe/KnHiqSVGVPqhE214sMQypCPUkR4Feu72LibX5eNkPKDf+JQ/H93c/mQ+JsDymyCeZDQtggmBn4uNnBES3dnGgfGRMpwUYHazhGw6UuCNWWuD3pKPt+h3dxRz4POzpd7FWLS0TrKKV7PHgk8ej3yWE4aAxPxNOyiSbibctlW4djpIPZfIVSP7ZmfgtRMN7QngsjlQvXaJmvz01hKXihFmAO6Ho/pYlk0LUY5ad70RBbpyZVUYoO9vIcDFapUF/w8Vm/+Yypeuzfl123O/xcp6zU1pVQyN41kC8CBRN44uH1upO1ZCJX5fWfZvCRuV1iqmiCkIDGyAq5XRz9zGmQV4R/MwWW/4O5Uk3uF/z0SrF5hCvMRdsr48V92b2clBicP67h8qicpkfgX2wUKg17Ha6eguj5hl2rD94RCHNWyCR85v64u46EsG7wMJBOdqzyC7kcFAvleLNabXbhLqUhvjUAuK15fXcbwz+PoVKQBYm66mCVA/b/j8Fl9wSiOfc+i4LIPw1Vpmh1C/NI+uvCsroqr1k5UPOUfz35dIiCXDwRBagoJP55tx0lxqe8OdxPmCdSiCnYSX2uDI=
+
 jobs:
   include:
   - stage: lint
@@ -22,7 +23,7 @@ jobs:
     script:
     - pip install twine wheel
     - python setup.py bdist_wheel
-    - twine upload dist/*nwm* -u gantian127 -p$PYPI_PASS
+    - twine upload dist/*nwm* -u gantian127 -p $PYPI_PASS
 before_install:
 - |
   if [[ $TRAVIS_OS_NAME == "osx" ]]; then
