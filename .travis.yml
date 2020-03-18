@@ -5,7 +5,7 @@ os:
 env:
   matrix:
   - CONDA_ENV=3.7
-  - CONDA_ENV=3.8
+  #- CONDA_ENV=3.8
   global:
     secure: KwZgJ1wdea2DRlYyiQLPOnbZgeubLKEL9JGc7eLKL95yfK2Dtb0ehVuhvmv32ZILdhm/oKZuc5GWotFjQLcDGz5cG5/1s7MNUuPOfzQpvpuE2hS3thLTIXHNZi1YJGORU1dJ3tyzBip3pa8wdSz/5fWvDL9Jggkf38ZeBWAnl1JlaU+JfRcfhe7Z2vWC4xYbqRfNyxo+r66p353JO4jGXwqrDYvwW1/Hy2zUUStUU4h+W6CmZgeF4p+hs0mlOdXXtRwLhdTFfS4/lOtBqYr6HOfQy0TSqVB8W/2zltf506HfBGtg80ZGQqEMBn2Fr9ewA9+lQywl1DWcieK4Pi4uBy/rGxUGUOnfdsXFIjhPXkxEIaQkNqNJ2f4fJS9Sh6tqL2dCGpuS0D5wOvlYKMsi8/HABHwR5YJEqhTXjIgnWuXmsbWqvZH6Kn3YoEdrrBv3V3gvZNOKM1Grw5fVJUazdfBT4lXm64ksYwwsNhfB8zKsCHRXFPdQek0rl1qrbLI/pq+iIQQXvlgYkqlxfK6oH6tjxdj3jq654TiCzYEW/eDSWpwW+N6suymVeq8ckwt9v/HM0JF9us863e164BnSDlvXtycQgRrDc3P/WaNiHjoQmkzgKjNbx/XDxtMMGlreNth8iahf3teOxzRQXzSMUN0FD6KdgKe7WIC1kMZ3bJ0=
 jobs:
