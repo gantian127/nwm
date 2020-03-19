@@ -27,7 +27,8 @@ import matplotlib.pyplot as plt
 from nwm import NwmHs
 
 # get data from National water model HydroShare App
-dataset = NwmHs().get_data(archive='harvey', config='short_range', geom='channel_rt', variable='streamflow',
+nwm_data = NwmHs()
+dataset = nwm_data.get_data(archive='harvey', config='short_range', geom='channel_rt', variable='streamflow',
                            comid=[5781915], init_time=0, start_date='2017-08-23')
 
 # show metadata
