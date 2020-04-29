@@ -7,6 +7,8 @@
 
 Python library to fetch and process the National Water Model (NWM) NetCDF datasets. 
 
+If you have any suggestion to improve the current function, please create a github issue 
+[here](https://github.com/gantian127/nwm/issues).
 ## Get Started
 
 
