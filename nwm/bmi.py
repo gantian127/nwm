@@ -20,6 +20,13 @@ BmiGridUniformRectilinear = namedtuple(
 
 
 class BmiNwmHs(Bmi):
+    def __init__(self) -> None:
+        self._input_var_names = ()
+        self._output_var_names = ()
+        self._var = {}
+        self._data = None
+
+
     def finalize(self) -> None:  # TODO: not sure
         """Perform tear-down tasks for the model.
         Perform all tasks that take place after exiting the model's time
@@ -27,6 +34,12 @@ class BmiNwmHs(Bmi):
         printing reports.
         """
         self._time_index = 0
+        self._cftime_array = None
+        self._var = {}
+        self._input_var_names = {}
+        self._output_var_names = {}
+        self._data = None
+
 
     def get_component_name(self) -> str:
         """Name of the component.
@@ -324,7 +337,7 @@ class BmiNwmHs(Bmi):
         int
           The number of input variables.
         """
-        return 0
+        return len(self._input_var_names)
 
     def get_output_var_names(self) -> Tuple[str]:
         """List of a model's output variables.
@@ -345,7 +358,7 @@ class BmiNwmHs(Bmi):
         int
           The number of output variables.
         """
-        return 1
+        return len(self._output_var_names)
 
     def get_start_time(self) -> float:
         """Start time of the model.
@@ -397,9 +410,10 @@ class BmiNwmHs(Bmi):
         """
         # return all the value at current time step, for scalar it is just one value
         dest[:] = self._data.values[self._time_index]
+        return dest
 
     def get_value_at_indices(
-        self, name: str, dest: numpy.ndarray, inds: numpy.ndarray  # TODO: not sure
+        self, name: str, dest: numpy.ndarray, inds: numpy.ndarray
     ) -> numpy.ndarray:
         """Get values at particular indices.
         Parameters
@@ -417,8 +431,9 @@ class BmiNwmHs(Bmi):
         """
         # return the value at current time step with given index in 1D or 2D grid. when it is scalar no need for ind
         dest[:] = self._data.values[self._time_index]
+        return dest
 
-    def get_value_ptr(self, name: str) -> numpy.ndarray:  # TODO: difference between get_value()?
+    def get_value_ptr(self, name: str) -> numpy.ndarray:
         """Get a reference to values of the given variable.
         This is a getter for the model, used to access the model's
         current state. It returns a reference to a model variable,
@@ -449,7 +464,7 @@ class BmiNwmHs(Bmi):
         # for scalar there is no grid, identifier will be 0.
         # this function starts to check other grid property methods
         # when there is no grid, the only grid property will be get_grid_type() as None.
-        return 0
+        return self._var[name].grid
 
     def get_var_itemsize(self, name: str) -> int:
         """Get memory use for each array element in bytes.
@@ -563,16 +578,24 @@ class BmiNwmHs(Bmi):
         """
         if config_file:
             with open(config_file, "r") as fp:
-                conf = yaml.safe_load(fp).get("nwmhs", {})
+                conf = yaml.safe_load(fp).get("bmi-nwm", {})
         else:
-            conf = {}
+            conf = {
+                'archive': 'harvey',
+                'comid': (5781915,),
+                'config': 'short_range',
+                'end_date': '2017-09-06',
+                'geom': 'channel_rt',
+                'init_time': 0,
+                'output': '',
+                'start_date': '2017-08-23',
+                'time_lag': 0,
+                'variable': 'streamflow'
+            }
 
         self._data = NwmHs().get_data(**conf) if conf else NwmHs().get_data()
 
         self._output_var_names = tuple([self._data.variable_name])
-        self._input_var_names = ()
-
-        self._grid = {}  # there is no grid
 
         self._time_index = 0
         time_array = pd.to_datetime(numpy.datetime_as_string(self._data['time'])).to_pydatetime()
