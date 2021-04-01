@@ -26,7 +26,6 @@ class BmiNwmHs(Bmi):
         self._var = {}
         self._data = None
 
-
     def finalize(self) -> None:  # TODO: not sure
         """Perform tear-down tasks for the model.
         Perform all tasks that take place after exiting the model's time
@@ -39,7 +38,6 @@ class BmiNwmHs(Bmi):
         self._input_var_names = {}
         self._output_var_names = {}
         self._data = None
-
 
     def get_component_name(self) -> str:
         """Name of the component.
@@ -448,7 +446,7 @@ class BmiNwmHs(Bmi):
             A reference to a model variable.
         """
         # return a reference of all the value at current time step. mainly for input data. not useful for scalar value
-        raise NotImplementedError('get_value_ptr')
+        return self._data.values[self._time_index]
 
     def get_var_grid(self, name: str) -> int:
         """Get grid identifier for the given variable.
