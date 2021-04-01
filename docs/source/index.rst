@@ -189,15 +189,15 @@ Parameter settings
     * two values: identifier for a grid cell when "geom" is "land" or "forcing".
       Enter the grid south_north index followed by a comma and then the grid west_east index. e.g., [1636, 2036]
 
-* **init_time**: The UTC time of day at which the forecast is initialized, represented by an hour from "00" to "23".
-  Time "00" corresponds to 12:00AM, and so forth up to time "23" for 11:00PM.
+* **init_time**: The UTC time of day at which the forecast is initialized, represented by an hour from "0" to "23".
+  Time "0" corresponds to 12:00AM, and so forth up to time "23" for 11:00PM.
   Only applicable if "config" is "short_range" or "medium_range".
 
-    * init_time option for short_range: "00", "01",..."23".
-    * init_time option for medium_range: "00", "06", "12", "18".
+    * init_time option for short_range: 0, 1,...,23.
+    * init_time option for medium_range: 0, 6, 12, 18.
 
 * **time_lag**: The time lag of the long range ensemble forecast. Only applicable if "config" is "long_range".
-    * time_lag option for long_range: "t00z", "t06z", "t12z", "t18z".
+    * time_lag option for long_range: 0, 6, 12, 18.
 
 * **start_date**: The start date of the forecast. A string of the form "YYYY-MM-DD".
 
