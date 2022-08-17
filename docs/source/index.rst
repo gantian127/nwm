@@ -14,6 +14,10 @@ nwm package includes a `Basic Model Interface (BMI) <https://bmi.readthedocs.io/
 which converts the NWM dataset into a reusable, plug-and-play data component for
 `Community Surface Dynamics Modeling System (CSDMS) <https://csdms.colorado.edu/wiki/Main_Page>`_ modeling framework.
 
+**Please note that nwm package is deprecated.**
+This package now only serves as an example to demonstrate how to implement BMI for research datasets as the
+`CSDMS Data Component <https://csdms.colorado.edu/wiki/DataComponents>`_.
+
 
 Getting Started
 ===============

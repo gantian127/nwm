@@ -7,8 +7,12 @@
 
 Python library to fetch and process the National Water Model (NWM) NetCDF datasets. 
 
-If you have any suggestion to improve the current function, please create a github issue 
-[here](https://github.com/gantian127/nwm/issues).
+**Please note that nwm package is deprecated.**
+This package now only serves as an example to demonstrate how to implement Basic Model Interface 
+([BMI](https://bmi.readthedocs.io/en/latest/)) 
+for research datasets as the [CSDMS Data Component](https://csdms.colorado.edu/wiki/DataComponents). 
+
+
 ## Get Started
 
 
